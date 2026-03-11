@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-white text-ink-900 font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply max-w-5xl mx-auto px-6;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-6;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase;
+  }
+
+  .badge-brand {
+    @apply badge bg-brand-100 text-brand-700;
+  }
+
+  .badge-mint {
+    @apply badge bg-emerald-50 text-emerald-700;
+  }
+
+  .badge-coral {
+    @apply badge bg-red-50 text-red-600;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-50 text-amber-700;
+  }
+
+  .card {
+    @apply bg-white border border-surface-200 rounded-2xl p-6 transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:border-brand-300 hover:shadow-lg hover:shadow-brand-100/50;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-brand-600 text-white font-display font-semibold text-sm rounded-xl
+    hover:bg-brand-700 active:bg-brand-800 transition-all duration-150
+    shadow-md shadow-brand-600/20 hover:shadow-lg hover:shadow-brand-600/30;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-surface-100 text-ink-700 font-display font-semibold text-sm rounded-xl
+    border border-surface-300 hover:bg-surface-200 active:bg-surface-300 transition-all duration-150;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-ink-500 font-display font-medium text-sm rounded-lg
+    hover:bg-surface-100 hover:text-ink-700 transition-all duration-150;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-surface-50 border border-surface-200 rounded-xl text-ink-900 font-body
+    placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent
+    transition-all duration-150;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl font-display font-bold text-ink-900 tracking-tight;
+  }
+
+  .section-subheading {
+    @apply text-lg text-ink-500 font-body max-w-2xl;
+  }
+
+  .score-ring {
+    @apply relative w-20 h-20 rounded-full flex items-center justify-center;
+    background: conic-gradient(
+      var(--score-color) calc(var(--score-pct) * 1%),
+      #e8ebef calc(var(--score-pct) * 1%)
+    );
+  }
+
+  .score-ring-inner {
+    @apply w-16 h-16 rounded-full bg-white flex items-center justify-center font-display font-bold text-lg;
+  }
+
+  .prose-section h3 {
+    @apply text-xl font-display font-bold text-ink-900 mt-8 mb-3;
+  }
+
+  .prose-section p {
+    @apply text-ink-700 leading-relaxed mb-4;
+  }
+
+  .prose-section ul {
+    @apply space-y-2 mb-4;
+  }
+
+  .prose-section li {
+    @apply text-ink-700 pl-5 relative;
+  }
+
+  .prose-section li::before {
+    content: "";
+    @apply absolute left-0 top-2.5 w-1.5 h-1.5 rounded-full bg-brand-400;
+  }
+
+  .wireframe-box {
+    @apply border-2 border-dashed border-surface-300 rounded-lg bg-surface-50/50 flex items-center justify-center text-ink-300 text-xs font-mono;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-brand-400;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
+
+/* Mermaid overrides */
+.mermaid {
+  @apply w-full flex justify-center;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-surface-400;
+}
