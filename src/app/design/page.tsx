@@ -28,10 +28,33 @@ export default function DesignPage() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            <WireframeLanding />
-            <WireframeDemo />
-            <WireframeResults />
-            <WireframeComparison />
+            <WireframeCard
+              title="Landing Page"
+              description="Hero section with value proposition, CTA buttons, stats bar showing key metrics, and a 3x2 feature grid. Goal: communicate what the tool does in under 5 seconds and drive users to the demo."
+            >
+              <WireframeLanding />
+            </WireframeCard>
+
+            <WireframeCard
+              title="Demo / Analyzer Page"
+              description="Two-column layout: input panel (left) with content type selector, text area, and analyze button; output panel (right) with tabbed results. Designed for rapid iteration without page reloads."
+            >
+              <WireframeDemo />
+            </WireframeCard>
+
+            <WireframeCard
+              title="Results / Metrics Page"
+              description="Dashboard layout with KPI cards at top, bar charts for growth and distribution, horizontal progress bars for feature usage, and a 3-column roadmap. Built to tell a data story during the demo."
+            >
+              <WireframeResults />
+            </WireframeCard>
+
+            <WireframeCard
+              title="Comparison View"
+              description="Side-by-side score panels let users compare two analysis runs. Each version shows the overall score ring and per-dimension bars, with a delta summary at the bottom showing improvement."
+            >
+              <WireframeComparison />
+            </WireframeCard>
           </div>
         </div>
 
@@ -47,6 +70,7 @@ export default function DesignPage() {
           <div className="space-y-10">
             <MermaidDiagram
               title="Core Analysis Flow"
+              description="The primary user journey from landing to export. New users read the overview first; returning users go straight to the demo. The key loop is analyze, review, edit, re-analyze until the user is satisfied."
               chart={`graph LR
     A[Open App] --> B[Landing Page]
     B --> C{New or Returning?}
@@ -70,6 +94,7 @@ export default function DesignPage() {
 
             <MermaidDiagram
               title="Feature Discovery Flow"
+              description="How users explore the six output tabs. Low-scoring content triggers the recommendation path (hooks, rewrites, structure, checklist). High-scoring content leads to lighter exploration before export."
               chart={`graph TD
     A[Scores Tab] --> B{Score < 60?}
     B -->|Yes| C[Read Recommendations]
@@ -88,6 +113,7 @@ export default function DesignPage() {
 
             <MermaidDiagram
               title="Comparison and Iteration Flow"
+              description="The version tracking loop. Each analysis is saved to the database and appears in the history panel. Users select any two runs for side-by-side comparison, driving iterative improvement."
               chart={`graph LR
     A[First Analysis] --> B[Save to History]
     B --> C[Edit Content]
@@ -115,49 +141,64 @@ export default function DesignPage() {
   );
 }
 
-/* ===== Wireframe Components ===== */
+/* ===== Wireframe Card Wrapper ===== */
+
+function WireframeCard({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
+  return (
+    <div className="card border-2 border-surface-200">
+      <p className="text-xs font-display font-bold text-brand-600 uppercase tracking-wider mb-4">{title}</p>
+      {children}
+      <p className="text-sm text-ink-500 mt-4 leading-relaxed border-t border-surface-200 pt-4">{description}</p>
+    </div>
+  );
+}
+
+/* ===== Wireframe Components (with darker, more visible styling) ===== */
 
 function WireframeLanding() {
   return (
-    <div className="card">
-      <p className="text-xs font-display font-bold text-ink-300 uppercase tracking-wider mb-4">Landing Page</p>
-      <div className="bg-surface-50 rounded-xl p-5 space-y-3 border border-surface-200">
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded bg-surface-300" />
-          <div className="h-3 w-20 rounded bg-surface-300" />
-          <div className="ml-auto flex gap-2">
-            <div className="h-3 w-10 rounded bg-surface-200" />
-            <div className="h-3 w-10 rounded bg-surface-200" />
-            <div className="h-3 w-10 rounded bg-surface-200" />
-          </div>
-        </div>
-        <div className="py-10 text-center space-y-3">
-          <div className="h-3 w-24 rounded bg-brand-200 mx-auto" />
-          <div className="h-6 w-64 rounded bg-surface-300 mx-auto" />
-          <div className="h-6 w-48 rounded bg-surface-300 mx-auto" />
-          <div className="h-3 w-72 rounded bg-surface-200 mx-auto" />
-          <div className="flex gap-3 justify-center mt-4">
-            <div className="h-8 w-24 rounded-lg bg-brand-400" />
-            <div className="h-8 w-24 rounded-lg bg-surface-300" />
-          </div>
-        </div>
-        <div className="grid grid-cols-4 gap-2 pt-4 border-t border-surface-200">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="text-center space-y-1">
-              <div className="h-6 w-6 rounded bg-surface-300 mx-auto" />
-              <div className="h-2 w-10 rounded bg-surface-200 mx-auto" />
-            </div>
+    <div className="bg-gray-100 rounded-xl p-5 space-y-3 border-2 border-gray-300">
+      {/* Nav */}
+      <div className="flex items-center gap-2">
+        <div className="w-5 h-5 rounded bg-blue-400" />
+        <div className="h-3 w-20 rounded bg-gray-400" />
+        <div className="ml-auto flex gap-2">
+          {["Home", "Demo", "Product", "Tech"].map((l) => (
+            <div key={l} className="h-3 px-1 text-[7px] font-bold text-gray-500 bg-gray-200 rounded flex items-center">{l}</div>
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-2 pt-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="p-3 rounded-lg border border-dashed border-surface-300 space-y-1">
-              <div className="w-5 h-5 rounded bg-surface-200" />
-              <div className="h-2 w-16 rounded bg-surface-200" />
-              <div className="h-2 w-full rounded bg-surface-100" />
-            </div>
-          ))}
+      </div>
+
+      {/* Hero */}
+      <div className="py-8 text-center space-y-2 bg-white rounded-lg border border-gray-300">
+        <div className="h-3 w-32 rounded-full bg-blue-200 mx-auto" />
+        <div className="h-5 w-56 rounded bg-gray-400 mx-auto" />
+        <div className="h-5 w-44 rounded bg-gray-400 mx-auto" />
+        <div className="h-3 w-64 rounded bg-gray-200 mx-auto mt-1" />
+        <div className="flex gap-3 justify-center mt-3">
+          <div className="h-7 w-24 rounded-lg bg-blue-500 flex items-center justify-center text-[8px] font-bold text-white">Try Demo</div>
+          <div className="h-7 w-24 rounded-lg bg-gray-300 flex items-center justify-center text-[8px] font-bold text-gray-600">Read PRD</div>
         </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="grid grid-cols-4 gap-2 bg-white rounded-lg border border-gray-300 p-2">
+        {["2,847 Users", "+18% Lift", "18.4K Runs", "4m32s Avg"].map((s) => (
+          <div key={s} className="text-center">
+            <div className="text-[9px] font-bold text-gray-700">{s.split(" ")[0]}</div>
+            <div className="text-[7px] text-gray-400">{s.split(" ").slice(1).join(" ")}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Feature Grid */}
+      <div className="grid grid-cols-3 gap-2">
+        {["Hooks", "Scoring", "Rewrites", "Hashtags", "Checklist", "Compare"].map((f) => (
+          <div key={f} className="p-2 rounded-lg border-2 border-gray-300 bg-white text-center">
+            <div className="w-4 h-4 rounded bg-blue-200 mx-auto mb-1" />
+            <div className="text-[8px] font-bold text-gray-600">{f}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -165,52 +206,61 @@ function WireframeLanding() {
 
 function WireframeDemo() {
   return (
-    <div className="card">
-      <p className="text-xs font-display font-bold text-ink-300 uppercase tracking-wider mb-4">Demo / Analyzer Page</p>
-      <div className="bg-surface-50 rounded-xl p-5 border border-surface-200">
-        <div className="grid grid-cols-[140px_1fr] gap-3">
-          {/* Left: Input */}
-          <div className="space-y-2">
-            <div className="p-2 rounded-lg border border-dashed border-surface-300 space-y-1.5">
-              <div className="h-2 w-16 rounded bg-surface-300" />
-              <div className="grid grid-cols-3 gap-1">
-                <div className="h-4 rounded bg-brand-200" />
-                <div className="h-4 rounded bg-surface-200" />
-                <div className="h-4 rounded bg-surface-200" />
-              </div>
-              <div className="h-2 w-12 rounded bg-surface-300" />
-              <div className="h-20 rounded bg-white border border-surface-200" />
-              <div className="h-6 rounded bg-brand-400" />
+    <div className="bg-gray-100 rounded-xl p-5 border-2 border-gray-300">
+      <div className="grid grid-cols-[140px_1fr] gap-3">
+        {/* Left: Input Panel */}
+        <div className="space-y-2">
+          <div className="p-2 rounded-lg border-2 border-gray-300 bg-white space-y-2">
+            <div className="text-[8px] font-bold text-gray-600">Content Type</div>
+            <div className="grid grid-cols-3 gap-1">
+              <div className="h-5 rounded bg-blue-200 flex items-center justify-center text-[7px] font-bold text-blue-700">Caption</div>
+              <div className="h-5 rounded bg-gray-200 flex items-center justify-center text-[7px] text-gray-500">Script</div>
+              <div className="h-5 rounded bg-gray-200 flex items-center justify-center text-[7px] text-gray-500">Hook</div>
             </div>
-            <div className="p-2 rounded-lg border border-dashed border-surface-300 space-y-1">
-              <div className="h-2 w-14 rounded bg-surface-300" />
-              <div className="h-5 rounded bg-surface-100 border border-surface-200" />
-              <div className="h-5 rounded bg-surface-100 border border-surface-200" />
+            <div className="text-[8px] font-bold text-gray-600">Your Content</div>
+            <div className="h-20 rounded bg-gray-100 border-2 border-gray-300 p-1">
+              <div className="text-[7px] text-gray-400 leading-tight">Paste your TikTok caption, script, or hook here...</div>
             </div>
+            <div className="h-7 rounded-lg bg-blue-500 flex items-center justify-center text-[8px] font-bold text-white">Analyze</div>
           </div>
-          {/* Right: Output */}
-          <div className="space-y-2">
-            <div className="flex gap-1">
-              {["Scores", "Hooks", "Rewrites", "Struct", "Tags", "Check"].map((t) => (
-                <div key={t} className={`h-5 px-2 rounded text-[8px] flex items-center ${t === "Scores" ? "bg-brand-100 text-brand-600" : "bg-surface-100 text-ink-300"}`}>
-                  {t}
-                </div>
-              ))}
+          <div className="p-2 rounded-lg border-2 border-gray-300 bg-white space-y-1">
+            <div className="text-[8px] font-bold text-gray-600">Examples</div>
+            <div className="h-5 rounded bg-gray-100 border border-gray-300 flex items-center px-1 text-[7px] text-gray-500">Travel caption</div>
+            <div className="h-5 rounded bg-gray-100 border border-gray-300 flex items-center px-1 text-[7px] text-gray-500">Cooking script</div>
+          </div>
+        </div>
+
+        {/* Right: Output Panel */}
+        <div className="space-y-2">
+          <div className="flex gap-1">
+            {["Scores", "Hooks", "Rewrites", "Struct", "Tags", "Check"].map((t, i) => (
+              <div key={t} className={`h-6 px-2 rounded text-[8px] font-bold flex items-center ${i === 0 ? "bg-blue-100 text-blue-700 border border-blue-300" : "bg-gray-200 text-gray-500"}`}>
+                {t}
+              </div>
+            ))}
+          </div>
+          <div className="p-3 rounded-lg border-2 border-gray-300 bg-white">
+            <div className="flex justify-center gap-6 mb-3">
+              <div className="w-14 h-14 rounded-full border-4 border-blue-400 flex items-center justify-center text-sm font-bold text-blue-600">78</div>
             </div>
-            <div className="p-3 rounded-lg border border-dashed border-surface-300">
-              <div className="flex justify-center gap-4 mb-3">
-                <div className="w-12 h-12 rounded-full border-4 border-brand-300 flex items-center justify-center text-[10px] font-bold text-brand-600">78</div>
+            <div className="flex justify-center gap-8">
+              <div className="text-center">
+                <div className="w-9 h-9 rounded-full border-3 border-green-400 flex items-center justify-center text-[10px] font-bold text-green-600 mx-auto">72</div>
+                <div className="text-[7px] text-gray-500 mt-1">Clarity</div>
               </div>
-              <div className="flex justify-center gap-6">
-                <div className="w-8 h-8 rounded-full border-3 border-emerald-300 flex items-center justify-center text-[8px] font-bold">72</div>
-                <div className="w-8 h-8 rounded-full border-3 border-amber-300 flex items-center justify-center text-[8px] font-bold">81</div>
-                <div className="w-8 h-8 rounded-full border-3 border-violet-300 flex items-center justify-center text-[8px] font-bold">65</div>
+              <div className="text-center">
+                <div className="w-9 h-9 rounded-full border-3 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-600 mx-auto">81</div>
+                <div className="text-[7px] text-gray-500 mt-1">Engage</div>
               </div>
-              <div className="mt-3 pt-2 border-t border-surface-200 space-y-1">
-                <div className="h-2 w-20 rounded bg-surface-300" />
-                <div className="h-2 w-full rounded bg-surface-100" />
-                <div className="h-2 w-3/4 rounded bg-surface-100" />
+              <div className="text-center">
+                <div className="w-9 h-9 rounded-full border-3 border-violet-400 flex items-center justify-center text-[10px] font-bold text-violet-600 mx-auto">65</div>
+                <div className="text-[7px] text-gray-500 mt-1">Original</div>
               </div>
+            </div>
+            <div className="mt-3 pt-2 border-t-2 border-gray-200 space-y-1">
+              <div className="text-[8px] font-bold text-gray-600">Recommendations</div>
+              <div className="h-2 w-full rounded bg-gray-200" />
+              <div className="h-2 w-3/4 rounded bg-gray-200" />
             </div>
           </div>
         </div>
@@ -221,43 +271,44 @@ function WireframeDemo() {
 
 function WireframeResults() {
   return (
-    <div className="card">
-      <p className="text-xs font-display font-bold text-ink-300 uppercase tracking-wider mb-4">Results / Metrics Page</p>
-      <div className="bg-surface-50 rounded-xl p-5 border border-surface-200 space-y-3">
-        <div className="grid grid-cols-4 gap-2">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="p-2 rounded-lg bg-white border border-surface-200 text-center">
-              <div className="h-4 w-10 rounded bg-surface-300 mx-auto" />
-              <div className="h-2 w-12 rounded bg-surface-200 mx-auto mt-1" />
-            </div>
+    <div className="bg-gray-100 rounded-xl p-5 border-2 border-gray-300 space-y-3">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-4 gap-2">
+        {["2,847 Users", "4m 32s Session", "18.4K Analyzed", "+18% Lift"].map((s) => (
+          <div key={s} className="p-2 rounded-lg bg-white border-2 border-gray-300 text-center">
+            <div className="text-xs font-bold text-gray-700">{s.split(" ")[0]}</div>
+            <div className="text-[7px] text-gray-400">{s.split(" ").slice(1).join(" ")}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bar Chart */}
+      <div className="bg-white rounded-lg border-2 border-gray-300 p-3">
+        <div className="text-[8px] font-bold text-gray-600 mb-2">Weekly Active Users</div>
+        <div className="h-24 flex items-end justify-around px-2">
+          {[30, 50, 70, 85, 95, 80, 65, 90].map((h, i) => (
+            <div key={i} className="w-5 rounded-t bg-blue-400" style={{ height: `${h}%` }} />
           ))}
         </div>
-        <div className="h-28 rounded-lg bg-white border border-surface-200 flex items-end justify-around px-4 pb-2">
-          {[30, 50, 70, 85, 95, 80, 60, 90].map((h, i) => (
-            <div key={i} className="w-4 rounded-t bg-brand-200" style={{ height: `${h}%` }} />
+        <div className="flex justify-around mt-1">
+          {["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"].map((w) => (
+            <div key={w} className="text-[7px] text-gray-400">{w}</div>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="h-20 rounded-lg bg-white border border-surface-200 p-2">
-            <div className="h-2 w-16 rounded bg-surface-300 mb-2" />
-            <div className="space-y-1">
-              {[80, 65, 50, 40].map((w, i) => (
-                <div key={i} className="flex items-center gap-1">
-                  <div className="h-2 w-12 rounded bg-surface-200" />
-                  <div className="h-2 rounded bg-brand-200" style={{ width: `${w}%` }} />
-                </div>
-              ))}
+      </div>
+
+      {/* Feature Usage Bars */}
+      <div className="bg-white rounded-lg border-2 border-gray-300 p-3 space-y-1.5">
+        <div className="text-[8px] font-bold text-gray-600 mb-1">Feature Usage</div>
+        {[{ f: "Hooks", w: 89 }, { f: "Scoring", w: 84 }, { f: "Rewrites", w: 76 }, { f: "Compare", w: 52 }].map((item) => (
+          <div key={item.f} className="flex items-center gap-2">
+            <div className="text-[7px] text-gray-500 w-12">{item.f}</div>
+            <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full rounded-full bg-blue-400" style={{ width: `${item.w}%` }} />
             </div>
+            <div className="text-[7px] font-bold text-gray-600">{item.w}%</div>
           </div>
-          <div className="h-20 rounded-lg bg-white border border-surface-200 p-2">
-            <div className="h-2 w-20 rounded bg-surface-300 mb-2" />
-            <div className="space-y-1.5">
-              <div className="h-2 w-full rounded bg-surface-100" />
-              <div className="h-2 w-3/4 rounded bg-surface-100" />
-              <div className="h-2 w-full rounded bg-surface-100" />
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
@@ -265,36 +316,39 @@ function WireframeResults() {
 
 function WireframeComparison() {
   return (
-    <div className="card">
-      <p className="text-xs font-display font-bold text-ink-300 uppercase tracking-wider mb-4">Comparison View</p>
-      <div className="bg-surface-50 rounded-xl p-5 border border-surface-200">
-        <div className="grid grid-cols-2 gap-3">
-          {["Version A", "Version B"].map((v) => (
-            <div key={v} className="space-y-2">
-              <div className="text-[10px] font-display font-bold text-ink-300 uppercase">{v}</div>
-              <div className="p-2 rounded-lg bg-white border border-surface-200 text-center">
-                <div className="w-10 h-10 rounded-full border-4 border-brand-300 mx-auto flex items-center justify-center text-[10px] font-bold">
-                  {v === "Version A" ? "62" : "78"}
-                </div>
-              </div>
-              <div className="space-y-1">
-                {["Clarity", "Engage", "Original"].map((m) => (
-                  <div key={m} className="flex items-center gap-1">
-                    <div className="text-[8px] text-ink-300 w-10">{m}</div>
-                    <div className="flex-1 h-2 rounded bg-surface-200">
-                      <div className="h-2 rounded bg-brand-300" style={{ width: `${Math.random() * 40 + 40}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
+    <div className="bg-gray-100 rounded-xl p-5 border-2 border-gray-300">
+      <div className="grid grid-cols-2 gap-4">
+        {[
+          { label: "Version A", score: 62, c: 58, e: 65, o: 52, color: "amber" },
+          { label: "Version B", score: 78, c: 72, e: 81, o: 68, color: "green" },
+        ].map((v) => (
+          <div key={v.label} className="bg-white rounded-lg border-2 border-gray-300 p-3">
+            <div className="text-[9px] font-bold text-gray-500 uppercase tracking-wider mb-2">{v.label}</div>
+            <div className={`w-12 h-12 rounded-full border-4 ${v.color === "green" ? "border-green-400" : "border-amber-400"} mx-auto flex items-center justify-center text-sm font-bold ${v.color === "green" ? "text-green-600" : "text-amber-600"}`}>
+              {v.score}
             </div>
-          ))}
-        </div>
-        <div className="mt-3 pt-2 border-t border-surface-200 text-center">
-          <div className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-bold">
-            +16 points improvement
+            <div className="space-y-1.5 mt-3">
+              {[
+                { label: "Clarity", val: v.c },
+                { label: "Engage", val: v.e },
+                { label: "Original", val: v.o },
+              ].map((m) => (
+                <div key={m.label} className="flex items-center gap-1.5">
+                  <div className="text-[7px] text-gray-500 w-10">{m.label}</div>
+                  <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full ${v.color === "green" ? "bg-green-400" : "bg-amber-400"}`} style={{ width: `${m.val}%` }} />
+                  </div>
+                  <div className="text-[8px] font-bold text-gray-600">{m.val}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
+      <div className="mt-3 pt-2 border-t-2 border-gray-200 text-center">
+        <span className="inline-flex items-center gap-1 text-[11px] text-green-600 font-bold bg-green-50 px-3 py-1 rounded-full">
+          +16 points improvement
+        </span>
       </div>
     </div>
   );
@@ -302,7 +356,7 @@ function WireframeComparison() {
 
 /* ===== Mermaid Diagram ===== */
 
-function MermaidDiagram({ title, chart }: { title: string; chart: string }) {
+function MermaidDiagram({ title, description, chart }: { title: string; description: string; chart: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rendered, setRendered] = useState(false);
 
@@ -342,8 +396,9 @@ function MermaidDiagram({ title, chart }: { title: string; chart: string }) {
   }, [chart, title]);
 
   return (
-    <div className="card">
-      <h3 className="text-lg font-display font-bold text-ink-900 mb-4">{title}</h3>
+    <div className="card border-2 border-surface-200">
+      <h3 className="text-lg font-display font-bold text-ink-900 mb-2">{title}</h3>
+      <p className="text-sm text-ink-500 mb-4 leading-relaxed">{description}</p>
       <div
         ref={ref}
         className={`w-full overflow-x-auto transition-opacity duration-300 ${rendered ? "opacity-100" : "opacity-0"}`}
